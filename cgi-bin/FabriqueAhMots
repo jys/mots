@@ -20,21 +20,24 @@ form = cgi.FieldStorage()
 
 dejbutMot = form.getvalue('dejbutMot') or ''
 nouveauCorpus = form.getvalue('nouveauCorpus')
+raz = form.getvalue('raz')
 if nouveauCorpus:
     corpus = form.getvalue('nouveauCorpus')
-    motsFabriquejs = []
-    motsSejlectionnejs = []
 else:
     corpus = form.getvalue('corpus')
-    motsFabriquejs = form.getlist('motsFabriquejs') or []
+if raz:
+    motsSejlectionnejs = []
+else:
     motsSejlectionnejs = form.getlist('motsSejlectionnejs') or []
+motsFabriquejs = form.getlist('motsFabriquejs') or []
 sejlectMot = form.getvalue('sejlectMot')
 if sejlectMot:
     if sejlectMot in motsSejlectionnejs:
         motsSejlectionnejs.remove(sejlectMot)
     else:
         motsSejlectionnejs.append(sejlectMot)
-modedEmploi = form.getvalue('modedEmploi')
+sauvegarde = ('sauvegarde' in form) ^ ('avecSauvegarde' in form)
+modedEmploi = ('modedEmploi' in form) ^ ('avecModedEmploi' in form)
 fabriquer = form.getvalue('fabriquer')
 
 # l'en-teste
@@ -62,7 +65,7 @@ print("""
 # le titre
 print("""
     <body>
-    <form action="FabriqueDeMots" method="post">
+    <form action="FabriqueAhMots" method="post">
     <table><tr><td><sti>la fabrique à mots de </sti></td><td><img src="../ressources/echiquierLatejcon4-200T.png"></td></tr></table>
 """)
 # les corpus
@@ -86,12 +89,12 @@ print('</div>')
 # si un corpus est dejjah choisi, affiche le champs pour renseigner le dejbut de mot et l'ordre de fabriquer
 if corpus:
     print("""
-        <div id="af1"><table><tr><td>        
+        <div id="af1">        
         <mi1>le dejbut des mots (optionnel) : </mi1>
         <input type="text" name="dejbutMot" value="{}" style="font-size: 16pt" size="10">
         <br/><mi1>l'ordre de </mi1>
         <input type="submit" name="fabriquer" value="fabriquer" style="font-size: 16pt">
-        </td></tr></table></div>
+        </div>
         """.format(dejbutMot))
     if fabriquer:
         # lancement de la fabrication en fonction des paramètres présents
@@ -113,9 +116,6 @@ if corpus:
                 continue
             motsFabriquejs.append(nouveauMot)
     
-
-
-
 # si des mots ont dejjah ejtej fabriquejs, les affiche
 if motsFabriquejs:
     print('<div id="af2">')
@@ -130,13 +130,30 @@ if motsFabriquejs:
             mic = 'mi2'
         print(f"""
             <button name="sejlectMot" value="{mot}" class={mic}>{mot}</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            """.format(mot, mic, mot, mic))
+            """)
     print('</div>')
-
+    
+    # la sauvegarde
+    print("""
+        <div id="af1">
+        <br/><mi1>la </mi1>
+        <input type="submit" name="sauvegarde" value="sauvegarde" style="font-size: 16pt">
+        """)
+    if sauvegarde:
+        print("""
+            <br/>La sauvegarde des mots sejlectionnejs se fait par un copier-coller : <mi4>{}</mi4>
+            """.format(', '.join(motsSejlectionnejs)))
+        if len(motsSejlectionnejs) != 0:
+            print("""
+                <br/>La remise à zejro gejnejrale des sejlections se fait par le bouton 
+                <input type="submit" name="raz" value="raz" style="font-size: 16pt">
+                """)
+    print('</div>')
+        
 # le mode d'emploi
 print("""
     <div id="af3">
-    <br/><br/><br/>
+    <br/>
     <input type="submit" name="modedEmploi" value="mode d'emploi" style="font-size: 10pt">
     """)
 if modedEmploi:
@@ -146,11 +163,13 @@ if modedEmploi:
         <br/>La contrainte de dejbut pour les mots fabriquejs est optionnelle. Si le champ est laissé vide, la fabrique à mots travaille sans contrainte.
         <br/>Pour fabriquer de nouveaux mots, il suffit de donner l'ordre de fabriquer.
         <br/>L'ordre de fabriquer efface tous les mots en <mi5>rouge</mi5> et <mi6>vert</mi6> et les remplace par les nouveaux mots fabriquejs. Pour conserver un mot par delà d'une nouvelle fabrication, il suffit de cliquer ce mot. Il apparaist alors <b>en gras</b> et ne sera pas effacé lors de la prochaine fabrication. Inversement, pour remettre un mot sauvegardé (affiché <b>en gras</b>) dans la liste des mots effaçables, il suffit de cliquer ce mot. Il redevient alors affiché en <mi5>rouge</mi5> ou <mi6>vert</mi6>. 
-        <br/>La sauvegarde des mots fabriquejs ne peut se faire que par un copier-coller.
+        <br/>Pour effacer ce mode d'emploi, il suffit de cliquer sur le bouton "mode d'emploi".
     """)
 
 # passage de l'ejtat
-print(f'<input type="hidden" name="corpus" value="{corpus}"></input>')
+if sauvegarde: print(f'<input type="hidden" name="avecSauvegarde" value="1"></input>')
+if modedEmploi: print(f'<input type="hidden" name="avecModedEmploi" value="1"></input>')
+if corpus: print(f'<input type="hidden" name="corpus" value="{corpus}"></input>')
 for sel in motsSejlectionnejs:
     print(f'<input type="hidden" name="motsSejlectionnejs" value="{sel}"></input>')
 for fab in motsFabriquejs:
