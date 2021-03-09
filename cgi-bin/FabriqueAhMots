@@ -70,7 +70,7 @@ print("""
 """)
 # les corpus
 print("""
-    <div id="af1"><mi1>le corpus modehle (au choix) :</br></mi1></div><div id="af2">
+    <div id="af1"><mi1>le corpus modehle (au choix) :<br/></mi1></div><div id="af2">
     """)
 alt = True
 for nomCorpus in list(TOUS_CORPUS.keys()):
@@ -91,9 +91,9 @@ if corpus:
     print("""
         <div id="af1">        
         <mi1>le dejbut des mots (optionnel) : </mi1>
-        <input type="text" name="dejbutMot" value="{}" style="font-size: 16pt" size="10">
+        <input type="text" name="dejbutMot" value="{}" style="font-size: 16pt" size="10"/>
         <br/><mi1>l'ordre de </mi1>
-        <input type="submit" name="fabriquer" value="fabriquer" style="font-size: 16pt">
+        <input type="submit" name="fabriquer" value="fabriquer" style="font-size: 16pt"/>
         </div>
         """.format(dejbutMot))
     if fabriquer:
@@ -137,7 +137,7 @@ if motsFabriquejs:
     print("""
         <div id="af1">
         <br/><mi1>la </mi1>
-        <input type="submit" name="sauvegarde" value="sauvegarde" style="font-size: 16pt">
+        <input type="submit" name="sauvegarde" value="sauvegarde" style="font-size: 16pt"/>
         """)
     if sauvegarde:
         print("""
@@ -146,7 +146,7 @@ if motsFabriquejs:
         if len(motsSejlectionnejs) != 0:
             print("""
                 <br/>La remise à zejro gejnejrale des sejlections se fait par le bouton 
-                <input type="submit" name="raz" value="raz" style="font-size: 16pt">
+                <input type="submit" name="raz" value="raz" style="font-size: 16pt"/>
                 """)
     print('</div>')
         
@@ -154,7 +154,7 @@ if motsFabriquejs:
 print("""
     <div id="af3">
     <br/>
-    <input type="submit" name="modedEmploi" value="mode d'emploi" style="font-size: 10pt">
+    <input type="submit" name="modedEmploi" value="mode d'emploi" style="font-size: 10pt"/>
     """)
 if modedEmploi:
     print("""
@@ -165,14 +165,15 @@ if modedEmploi:
         <br/>L'ordre de fabriquer efface tous les mots en <mi5>rouge</mi5> et <mi6>vert</mi6> et les remplace par les nouveaux mots fabriquejs. Pour conserver un mot par delà d'une nouvelle fabrication, il suffit de cliquer ce mot. Il apparaist alors <b>en gras</b> et ne sera pas effacé lors de la prochaine fabrication. Inversement, pour remettre un mot sauvegardé (affiché <b>en gras</b>) dans la liste des mots effaçables, il suffit de cliquer ce mot. Il redevient alors affiché en <mi5>rouge</mi5> ou <mi6>vert</mi6>. 
         <br/>Pour effacer ce mode d'emploi, il suffit de cliquer sur le bouton "mode d'emploi".
     """)
+print('</div>')
 
 # passage de l'ejtat
-if sauvegarde: print(f'<input type="hidden" name="avecSauvegarde" value="1"></input>')
-if modedEmploi: print(f'<input type="hidden" name="avecModedEmploi" value="1"></input>')
-if corpus: print(f'<input type="hidden" name="corpus" value="{corpus}"></input>')
+if sauvegarde: print(f'<input type="hidden" name="avecSauvegarde" value="1"/>')
+if modedEmploi: print(f'<input type="hidden" name="avecModedEmploi" value="1"/>')
+if corpus: print(f'<input type="hidden" name="corpus" value="{corpus}"/>')
 for sel in motsSejlectionnejs:
-    print(f'<input type="hidden" name="motsSejlectionnejs" value="{sel}"></input>')
+    print(f'<input type="hidden" name="motsSejlectionnejs" value="{sel}"/>')
 for fab in motsFabriquejs:
-    print(f'<input type="hidden" name="motsFabriquejs" value="{fab}"></input>')
+    print(f'<input type="hidden" name="motsFabriquejs" value="{fab}"/>')
 
 print('</form></body></html>')
