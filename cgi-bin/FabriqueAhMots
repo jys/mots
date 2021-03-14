@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from MarkovSurMots import MarkovSurMots
+import os
 import sys
 import cgi
 from copy import deepcopy
@@ -99,7 +100,7 @@ if corpus:
         """.format(dejbutMot))
     if fabriquer:
         # lancement de la fabrication en fonction des paramètres présents
-        nomFichier = 'ressources/' + TOUS_CORPUS[corpus]
+        nomFichier = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', 'ressources', TOUS_CORPUS[corpus])
         markovSurMots = MarkovSurMots()
         markovSurMots.initCorpus(nomFichier)
         # 1) met les mots sejlectionnejs en teste de la liste des mots fabriquejs
