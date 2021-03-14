@@ -37,7 +37,7 @@ if sejlectMot:
     else:
         motsSejlectionnejs.append(sejlectMot)
 sauvegarde = ('sauvegarde' in form) ^ ('avecSauvegarde' in form)
-modedEmploi = ('modedEmploi' in form) ^ ('avecModedEmploi' in form)
+modedEmploi = ('modedEmploi' in form) ^ ('sansModedEmploi' not in form)
 fabriquer = form.getvalue('fabriquer')
 
 # l'en-teste
@@ -66,8 +66,9 @@ print("""
 print("""
     <body>
     <form action="FabriqueAhMots" method="post">
-    <table><tr><td><sti>la fabrique à mots de </sti></td><td><img src="../ressources/echiquierLatejcon4-200T.png"></td></tr></table>
+    <table><tr><td><sti>la fabrique à mots de </sti></td><td><img src="../ressources/echiquierLatejcon4-200T.png"/></td></tr></table>
 """)
+
 # les corpus
 print("""
     <div id="af1"><mi1>le corpus modehle (au choix) :<br/></mi1></div><div id="af2">
@@ -158,18 +159,19 @@ print("""
     """)
 if modedEmploi:
     print("""
-        Tout ce qui est en couleur (<mi5>rouge</mi5> et <mi6>vert</mi6>) et <b>en gras</b> est clicable.
+        <i>Pour masquer ce mode d'emploi, il suffit de cliquer sur le bouton <b>mode d'emploi</b>.</i>
+        <br/>Tout ce qui est en couleur (<mi5>rouge</mi5> et <mi6>vert</mi6>) et <b>en gras</b> est clicable.
         <br/>Le corpus qui sert à modejliser doit estre sejlectionné en premier. On peut changer à tout moment de corpus modehle en cliquant simplement sur le nom du nouveau corpus choisi.
-        <br/>La contrainte de dejbut pour les mots fabriquejs est optionnelle. Si le champ est laissé vide, la fabrique à mots travaille sans contrainte.
-        <br/>Pour fabriquer de nouveaux mots, il suffit de donner l'ordre de fabriquer.
-        <br/>L'ordre de fabriquer efface tous les mots en <mi5>rouge</mi5> et <mi6>vert</mi6> et les remplace par les nouveaux mots fabriquejs. Pour conserver un mot par delà d'une nouvelle fabrication, il suffit de cliquer ce mot. Il apparaist alors <b>en gras</b> et ne sera pas effacé lors de la prochaine fabrication. Inversement, pour remettre un mot sauvegardé (affiché <b>en gras</b>) dans la liste des mots effaçables, il suffit de cliquer ce mot. Il redevient alors affiché en <mi5>rouge</mi5> ou <mi6>vert</mi6>. 
-        <br/>Pour effacer ce mode d'emploi, il suffit de cliquer sur le bouton "mode d'emploi".
+        <br/>La contrainte de dejbut pour les mots fabriquejs est optionnelle. Si le champ est laissé vide, la fabrique à mots travaille sans contrainte de dejbut.
+        <br/>Pour fabriquer de nouveaux mots, il suffit de donner <i>l'ordre de <b>fabriquer</b></i>.
+        <br/><i>L'ordre de <b>fabriquer</b></i> efface tous les mots en <mi5>rouge</mi5> et <mi6>vert</mi6> et les remplace par les nouveaux mots fabriquejs. Pour conserver un mot par delà d'une nouvelle fabrication, il suffit de cliquer ce mot. Il apparaist alors <b>en gras</b> et ne sera pas effacé lors de la prochaine fabrication. Inversement, pour remettre un mot sauvegardé (affiché <b>en gras</b>) dans la liste des mots effaçables, il suffit de cliquer ce mot. Il redevient alors affiché en <mi5>rouge</mi5> ou <mi6>vert</mi6>.
+        <br/><i>La <b>sauvegarde</b></i> est auto-explicative, il suffit de cliquer sur le bouton <i>la <b>sauvegarde</b></i>.
     """)
 print('</div>')
 
 # passage de l'ejtat
 if sauvegarde: print(f'<input type="hidden" name="avecSauvegarde" value="1"/>')
-if modedEmploi: print(f'<input type="hidden" name="avecModedEmploi" value="1"/>')
+if not modedEmploi: print(f'<input type="hidden" name="sansModedEmploi" value="1"/>')
 if corpus: print(f'<input type="hidden" name="corpus" value="{corpus}"/>')
 for sel in motsSejlectionnejs:
     print(f'<input type="hidden" name="motsSejlectionnejs" value="{sel}"/>')
