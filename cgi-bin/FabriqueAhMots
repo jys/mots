@@ -19,14 +19,14 @@ TOUS_CORPUS = {'Madame Bovary' : 'MadameBovary.txt', 'Madame Bovary dejsaccentue
 
 form = cgi.FieldStorage()
 
+amont = ('amontAval' in form) ^ ('avecAmont' in form)
 dejbutMot = form.getvalue('dejbutMot') or ''
 nouveauCorpus = form.getvalue('nouveauCorpus')
-raz = form.getvalue('raz')
 if nouveauCorpus:
     corpus = form.getvalue('nouveauCorpus')
 else:
     corpus = form.getvalue('corpus')
-if raz:
+if 'raz' in form:
     motsSejlectionnejs = []
 else:
     motsSejlectionnejs = form.getlist('motsSejlectionnejs') or []
@@ -90,14 +90,23 @@ print('</div>')
 
 # si un corpus est dejjah choisi, affiche le champs pour renseigner le dejbut de mot et l'ordre de fabriquer
 if corpus:
-    print("""
+    if amont: 
+        texte = 'la fin'
+        align = 'right'
+    else:
+        texte = 'le dejbut'
+        align = 'left'
+    print(f"""
         <div id="af1">        
-        <mi1>le dejbut des mots (optionnel) : </mi1>
-        <input type="text" name="dejbutMot" value="{}" style="font-size: 16pt" size="10"/>
+        <mi1>{texte} des mots (optionnel) : </mi1>
+        &nbsp;&nbsp;
+        <input type="text" name="dejbutMot" value="{dejbutMot}" style="font-size: 16pt; text-align: {align};" size="10"/>
+        &nbsp;&nbsp;
+        <input type="submit" name="amontAval" value="dejbut / fin" style="font-size: 14pt; font-style: italic"/>
         <br/><mi1>l'ordre de </mi1>
         <input type="submit" name="fabriquer" value="fabriquer" style="font-size: 16pt"/>
         </div>
-        """.format(dejbutMot))
+        """)
     if fabriquer:
         # lancement de la fabrication en fonction des paramètres présents
         nomFichier = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', 'ressources', TOUS_CORPUS[corpus])
@@ -111,7 +120,7 @@ if corpus:
         while compteurdArrest < NBMOTS*10 and len(motsFabriquejs) < NBMOTS:
             compteurdArrest +=1
             try:
-                nouveauMot = markovSurMots.complehteMot(dejbutMot)
+                nouveauMot = markovSurMots.complehteMot(dejbutMot, amont)
             except ValueError:
                 break
             if nouveauMot in motsFabriquejs:
@@ -160,17 +169,18 @@ print("""
     """)
 if modedEmploi:
     print("""
-        <i>Pour masquer ce mode d'emploi, il suffit de cliquer sur le bouton <b>mode d'emploi</b>.</i>
+        <i>Pour masquer ce mode d'emploi, cliquez sur le bouton <b>mode d'emploi</b>.</i>
         <br/>Tout ce qui est en couleur (<mi5>rouge</mi5> et <mi6>vert</mi6>) et <b>en gras</b> est clicable.
-        <br/>Le corpus qui sert à modejliser doit estre sejlectionné en premier. On peut changer à tout moment de corpus modehle en cliquant simplement sur le nom du nouveau corpus choisi.
-        <br/>La contrainte de dejbut pour les mots fabriquejs est optionnelle. Si le champ est laissé vide, la fabrique à mots travaille sans contrainte de dejbut.
-        <br/>Pour fabriquer de nouveaux mots, il suffit de donner <i>l'ordre de <b>fabriquer</b></i>.
-        <br/><i>L'ordre de <b>fabriquer</b></i> efface tous les mots en <mi5>rouge</mi5> et <mi6>vert</mi6> et les remplace par les nouveaux mots fabriquejs. Pour conserver un mot par delà d'une nouvelle fabrication, il suffit de cliquer ce mot. Il apparaist alors <b>en gras</b> et ne sera pas effacé lors de la prochaine fabrication. Inversement, pour remettre un mot sauvegardé (affiché <b>en gras</b>) dans la liste des mots effaçables, il suffit de cliquer ce mot. Il redevient alors affiché en <mi5>rouge</mi5> ou <mi6>vert</mi6>.
-        <br/><i>La <b>sauvegarde</b></i> est auto-explicative, il suffit de cliquer sur le bouton <i>la <b>sauvegarde</b></i>.
+        <br/>Le corpus modehle doit estre sejlectionné en premier. On peut changer à tout moment de corpus modehle en cliquant sur le nom du nouveau corpus choisi.
+        <br/>La contrainte de dejbut ou de fin pour les mots fabriquejs est optionnelle. Si le champ est laissé vide, la fabrique à mots travaille sans contrainte de dejbut et de fin. Pour changer la contrainte (de dejbut à fin ou de fin à dejbut), cliquez sur le bouton <i><b>dejbut / fin</b></i>.
+        <br/>Pour fabriquer de nouveaux mots, donnez <i>l'ordre de <b>fabriquer</b></i>.
+        <br/><i>L'ordre de <b>fabriquer</b></i> efface tous les mots en <mi5>rouge</mi5> et <mi6>vert</mi6> et les remplace par les nouveaux mots fabriquejs. Pour conserver un mot par delà d'une nouvelle fabrication, cliquez ce mot. Il apparaist alors <b>en gras</b> et ne sera pas effacé lors de la prochaine fabrication. Inversement, pour remettre un mot sauvegardé (affiché <b>en gras</b>) dans la liste des mots effaçables, cliquez ce mot. Il redevient alors affiché en <mi5>rouge</mi5> ou <mi6>vert</mi6>.
+        <br/><i>La <b>sauvegarde</b></i> est auto-explicative quand on clique sur le bouton <i>la <b>sauvegarde</b></i>.
     """)
 print('</div>')
 
 # passage de l'ejtat
+if amont: print(f'<input type="hidden" name="avecAmont" value="1"/>')
 if sauvegarde: print(f'<input type="hidden" name="avecSauvegarde" value="1"/>')
 if not modedEmploi: print(f'<input type="hidden" name="sansModedEmploi" value="1"/>')
 if corpus: print(f'<input type="hidden" name="corpus" value="{corpus}"/>')
