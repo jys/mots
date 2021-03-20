@@ -127,7 +127,7 @@ class MarkovSurMots():
         markov[j, 0, 0] += 1
             
     # complehte un mot avec la quasi-chaisne de Markov
-    def complehteMot(self, dejbutFi, amont = False):
+    def complehteMot(self, dejbutOuFin, amont = False):
         if amont: 
             dejbutOuFin = dejbutOuFin[::-1]
             markov = self.markovR
