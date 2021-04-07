@@ -15,7 +15,7 @@ print("Content-Type: text/html")
 print()
 
 NBMOTS = 100
-TOUS_CORPUS = {'Madame Bovary' : 'MadameBovary.txt', 'Madame Bovary dejsaccentueje' : 'MadameBovary.txt-dejsaccentuej.txt', 'La Recherche du temps perdu' : 'LaRecherche.txt', 'La Disparition' : 'LaDisparition.txt', 'le dictionnaire des lemmes' : 'lemmes-FRE.txt', 'For whom the bell tolls' : 'ForWhomTheBellTolls.txt', 'Ficciones, Siete noches y otras obras' : 'FiccionesSieteNochesyOtrasObras.txt', '¿Qué es el budismo?' : 'QueEsElBudismo.txt'}
+TOUS_CORPUS = {'Madame Bovary' : 'MadameBovary.txt', 'Madame Bovary dejsaccentueje' : 'MadameBovary.txt-dejsaccentuej.txt', 'La Recherche du temps perdu' : 'LaRecherche.txt', 'La Disparition' : 'LaDisparition.txt', 'le dictionnaire des lemmes' : 'lemmes-FRE.txt', 'For whom the bell tolls' : 'ForWhomTheBellTolls.txt', 'Ficciones, Siete noches y otras obras' : 'FiccionesSieteNochesyOtrasObras.txt', '¿Qué es el budismo?' : 'QueEsElBudismo.txt', "Le grand Mandala de l'Inutilité" : 'MandalaDelInutilitej.txt'}
 
 form = cgi.FieldStorage()
 
