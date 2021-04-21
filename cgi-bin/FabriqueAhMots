@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 from MarkovSurMots import MarkovSurMots
-import os
+from os import path, environ
+import datetime
 import sys
 import cgi
 from copy import deepcopy
@@ -40,6 +41,14 @@ if sejlectMot:
 sauvegarde = ('sauvegarde' in form) ^ ('avecSauvegarde' in form)
 modedEmploi = ('modedEmploi' in form) ^ ('sansModedEmploi' not in form)
 fabriquer = form.getvalue('fabriquer')
+
+# la trace
+timbreDeTemps = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+adrIp = environ['REMOTE_ADDR']
+nomServeur = environ['SERVER_NAME']
+with open('ressources/traces.csv', 'a') as trace:
+    trace.write(f'{timbreDeTemps};{nomServeur};{adrIp};{dejbutMot};{corpus}\n')
+
 
 # l'en-teste
 print("""
@@ -109,7 +118,7 @@ if corpus:
         """)
     if fabriquer:
         # lancement de la fabrication en fonction des paramètres présents
-        nomFichier = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', 'ressources', TOUS_CORPUS[corpus])
+        nomFichier = path.join(path.dirname(path.realpath(__file__)), '..', 'ressources', TOUS_CORPUS[corpus])
         markovSurMots = MarkovSurMots()
         markovSurMots.initCorpus(nomFichier)
         # 1) met les mots sejlectionnejs en teste de la liste des mots fabriquejs
