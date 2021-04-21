@@ -43,12 +43,12 @@ modedEmploi = ('modedEmploi' in form) ^ ('sansModedEmploi' not in form)
 fabriquer = form.getvalue('fabriquer')
 
 # la trace
+fichierTrace = path.join(path.dirname(path.realpath(__file__)), '..', 'ressources/traces.csv')
 timbreDeTemps = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 adrIp = environ['REMOTE_ADDR']
 nomServeur = environ['SERVER_NAME']
-with open('ressources/traces.csv', 'a') as trace:
+with open(fichierTrace, 'a') as trace:
     trace.write(f'{timbreDeTemps};{nomServeur};{adrIp};{dejbutMot};{corpus}\n')
-
 
 # l'en-teste
 print("""
