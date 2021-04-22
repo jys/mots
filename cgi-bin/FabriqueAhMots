@@ -45,10 +45,12 @@ fabriquer = form.getvalue('fabriquer')
 # la trace
 fichierTrace = path.join(path.dirname(path.realpath(__file__)), '..', 'ressources/traces.csv')
 timbreDeTemps = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-adrIp = environ['REMOTE_ADDR']
-nomServeur = environ['SERVER_NAME']
+adrIp = ''
+port = ''
+if 'REMOTE_ADDR' in environ: adrIp = environ['REMOTE_ADDR']
+if 'REMOTE_PORT' in environ: port = environ['REMOTE_PORT'] or ''
 with open(fichierTrace, 'a') as trace:
-    trace.write(f'{timbreDeTemps};{nomServeur};{adrIp};{dejbutMot};{corpus}\n')
+    trace.write(f'{timbreDeTemps};{adrIp};{port};{dejbutMot};{corpus}\n')
 
 # l'en-teste
 print("""
