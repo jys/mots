@@ -48,9 +48,10 @@ timbreDeTemps = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 adrIp = ''
 port = ''
 if 'REMOTE_ADDR' in environ: adrIp = environ['REMOTE_ADDR']
-if 'REMOTE_PORT' in environ: port = environ['REMOTE_PORT'] or ''
+if 'REMOTE_PORT' in environ: port = environ['REMOTE_PORT']
+if 'HTTP_USER_AGENT' in environ: agent = environ['HTTP_USER_AGENT']
 with open(fichierTrace, 'a') as trace:
-    trace.write(f'{timbreDeTemps};{adrIp};{port};{dejbutMot};{corpus}\n')
+    trace.write(f'{timbreDeTemps} | {adrIp} | {port} | {agent} | {dejbutMot} | {corpus}\n')
 
 # l'en-teste
 print("""
