@@ -59,6 +59,7 @@ print("""
     <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
     <title>fabrique ah mots</title>
+    <link rel="icon" type="image/png" href="../ressources/faviconLaR.png"/>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
     <style type="text/css">
     a:link { text-decoration:none; } 
