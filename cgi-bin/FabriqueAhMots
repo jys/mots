@@ -19,7 +19,6 @@ NBMOTS = 100
 TOUS_CORPUS = {'Madame Bovary' : 'MadameBovary.txt', 'Madame Bovary dejsaccentueje' : 'MadameBovary.txt-dejsaccentuej.txt', 'La Recherche du temps perdu' : 'LaRecherche.txt', 'La Disparition' : 'LaDisparition.txt', 'le dictionnaire des lemmes' : 'lemmes-FRE.txt', 'For whom the bell tolls' : 'ForWhomTheBellTolls.txt', 'Ficciones, Siete noches y otras obras' : 'FiccionesSieteNochesyOtrasObras.txt', '¿Qué es el budismo?' : 'QueEsElBudismo.txt', "Le grand Mandala de l'Inutilité" : 'MandalaDelInutilitej.txt'}
 
 form = cgi.FieldStorage()
-
 amont = ('amontAval' in form) ^ ('avecAmont' in form)
 dejbutMot = form.getvalue('dejbutMot') or ''
 nouveauCorpus = form.getvalue('nouveauCorpus')
@@ -50,7 +49,7 @@ else: adrIp = ''
 if 'REMOTE_PORT' in environ: port = environ['REMOTE_PORT']
 else: port = ''
 if 'HTTP_USER_AGENT' in environ: agent = environ['HTTP_USER_AGENT']
-else: environ = ''
+else: agent = ''
 with open(fichierTrace, 'a') as trace:
     trace.write(f'{timbreDeTemps} | {adrIp} | {port} | {agent} | {dejbutMot} | {corpus}\n')
 
@@ -81,6 +80,7 @@ print("""
 print("""
     <body>
     <form action="FabriqueAhMots" method="post">
+    <img alt="../ressources/quasiCryption-100.png" src="../ressources/fabriqueAhMots-100.png"  style="float:right;"/> 
     <table><tr><td><sti>la fabrique à mots de </sti></td><td><img src="../ressources/echiquierLatejcon4-200T.png"/></td></tr></table>
 """)
 
